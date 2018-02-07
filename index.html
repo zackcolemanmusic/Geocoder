@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title></title>
+  </head>
+  <body>
+    <h2 id=text-center> Enter Location </h2>
+     <div id="formbox">
+      <form id="location-box">
+        <input type="text" id="location-input" class="form-control-form-control-lg" placeholder="Address">
+          <br>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+          <div id="formattedAddress"></div>
+        <div id="geometry"></div>
+       </form>
+      </div>
+    </body>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+
+    //geocode();
+
+    const locationbox = document.getElementById('location-box');
+    locationbox.addEventListener('submit', geocode);
+
+    function geocode(event){
+      event.preventDefault();
+      let location = document.getElementById('location-input').value;
+      axios.get("https://maps.googleapis.com/maps/api/geocode/json", {
+        params:{
+          address: location,
+          key: "AIzaSyBNZimS68z4zUAG8piQmp-TlSlpnXOMR3U"
+        }
+      })
+      .then(function(response){
+
+        //Retrieve the formatted address through object.
+
+        let formattedAddress = response.data.results[0].formatted_address;
+        let formattedAddressOutput = `
+          <ul class="list-group">
+          <li class="list-group-item">${formattedAddress}</li>
+          </ul>
+        `
+        //Creating the column for output
+
+        document.getElementById('formattedAddress').innerHTML =
+        formattedAddressOutput;
+
+        //Retrieve the Lat long from object
+
+        let lat = response.data.results[0].geometry.location.lat;
+        let lng = response.data.results[0].geometry.location.lng;
+        let geometryOutput = `
+          <ul class="list-group">
+            <li class="list-group-item"><strong>Latitude</strong>:
+            ${lat}</li>
+            <li class="list-group-item"><strong>Longitude</strong>:
+            ${lng}</li>
+          </ul>`
+
+        //Output for lat long data.
+
+          document.getElementById('geometry').innerHTML =
+          geometryOutput;
+
+      })
+      .catch(function(error){
+        console.log(error);
+      })
+    }
+
+  </script>
+</html>

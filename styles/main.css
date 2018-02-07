@@ -1,0 +1,23 @@
+body {
+
+background-color: #7325a2;
+
+}
+
+#location-input {
+  width: 1045px;
+}
+
+#formbox {
+  border-style: solid;
+  width: 1050px;
+  margin-left: 100px;
+  margin-right: 100px;
+  display: inline-block;
+}
+
+#text-center {
+  margin-top: 50px;
+  text-align: center;
+  color: white;
+}
